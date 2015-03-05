@@ -1,0 +1,102 @@
+<!-- INCLUDECSS ../theme/ActiveUser.css -->
+<!-- INCLUDE overall_header.html -->
+<h2>{L_TEST_PAGE_TITLE}</h2>
+
+
+<div class="forumbg forumbg-table">
+	<div class="inner">
+		<table class="table1 show-header responsive">
+		<thead>
+		<tr>
+			<th class="ActiveUser">{L_INFO_TITLE}</th>
+		</thead>
+		<tbody>
+			<tr class="<!-- IF row.S_ROW_COUNT is even -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
+				<td class="ActiveUser">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgColor="#ffffff" vAlign="top">
+<font style="FONT-SIZE: 12px">{L_INFO_HEADER} </font>
+</td></tr></table>
+
+<center>
+<table width="98%" border="0" cellspacing="0" cellpadding="3"><tr><td bgColor="#FFFFCC" class="contur" vAlign="top" align="center">
+<font style="FONT-SIZE: 14px" color="#800000"><b>{L_IMPORTANT}</b></font>
+<br>
+<font style="FONT-SIZE: 12px" color="#009900">{L_INFO_FOOTER}</font>
+</td></tr></table>
+</center>
+
+				</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+</div>
+
+
+<!-- BEGIN title -->
+<h3>{title.MONTH}</h3>
+<!-- END title -->
+
+<div class="forumbg forumbg-table">
+	<div class="inner">
+		<table class="table1 show-header responsive">
+		<thead>
+		<tr>
+			<th width="5%" class="ActiveUser">{L_AVATAR}</th>
+			<th width="5%" class="ActiveUser">{L_NAME}</th>
+			<th width="10%" class="ActiveUser">{L_POSTS}</th>
+			<th width="15%" class="ActiveUser">{L_DATE}</th>
+			<th width="15%" class="ActiveUser">{L_VISIT}</th>
+			<th width="50%" class="ActiveUser">{L_COMMENT}</th>
+		</thead>
+		<tbody>
+<!-- BEGIN forecast -->
+			<tr class="<!-- IF row.S_ROW_COUNT is even -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
+				<td class="ActiveUser">{forecast.AVATAR}</td>
+				<td class="ActiveUser">{forecast.NAME}</td>
+				<td class="ActiveUser">{forecast.POSTS}</td>
+				<td class="ActiveUser">{forecast.DATE}</td>
+				<td class="ActiveUser">{forecast.VISIT}</td>
+				<td class="ActiveUser">{forecast.COMMENT}</td>
+			</tr>
+<!-- END forecast -->
+		</tbody>
+		</table>
+	</div>
+</div>
+
+
+<!-- BEGIN title -->
+<h3>{title.WINNERS}</h3>
+<!-- END title -->
+
+<div class="forumbg forumbg-table">
+	<div class="inner">
+		<table class="table1 show-header responsive">
+		<thead>
+		<tr>
+			<th width="5%" class="ActiveUser">{L_AVATAR}</th>
+			<th width="5%" class="ActiveUser">{L_NAME}</th>
+			<th width="10%" class="ActiveUser">{L_POSTS}</th>
+			<th width="15%" class="ActiveUser">{L_DATE}</th>
+			<th width="15%" class="ActiveUser">{L_VISIT}</th>
+			<th width="50%" class="ActiveUser">{L_COMMENT}</th>
+		</thead>
+		<tbody>
+<!-- BEGIN arhive -->
+			<tr class="<!-- IF row.S_ROW_COUNT is even -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
+				<td class="ActiveUser">{arhive.AVATAR}</td>
+				<td class="ActiveUser">{arhive.NAME}</td>
+				<td class="ActiveUser">{arhive.POSTS}</td>
+				<td class="ActiveUser">{arhive.DATE}</td>
+				<td class="ActiveUser">{arhive.VISIT}</td>
+				<td class="ActiveUser">{arhive.COMMENT}</td>
+			</tr>
+<!-- END arhive -->
+		</tbody>
+		</table>
+	</div>
+</div>
+
+<!-- INCLUDE overall_footer.html -->

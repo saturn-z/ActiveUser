@@ -1,0 +1,25 @@
+{
+    "name": "saturnZ/ActiveUser",
+    "type": "phpbb-extension",
+    "description": "Конкурс на самого активного пользователя",
+    "homepage": "http://phpbbguru.net",
+    "version": "0.0.1",
+    "time": "2015-03-01",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "saturn-z",
+            "homepage": "http://www.ribak72.ru",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "extra": {
+        "display-name": "ActiveUser",
+        "soft-require": {
+            "phpbb/phpbb": "3.1.*@dev"
+        }
+    }
+}
