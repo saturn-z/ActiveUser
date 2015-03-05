@@ -131,6 +131,13 @@ $year_ot = $date_time_array_ot['year'];
 $timestamp_ot = mktime(0,0,1,$month_ot,1,$year_ot);
 $timestamp_do = date("U");
 $i = "0";
+
+$sql0 = "SELECT poster_id, COUNT(poster_id) as cnt  FROM " . POSTS_TABLE . " WHERE poster_id > '2' AND post_time >= {$timestamp_ot} AND post_time <= {$timestamp_do} GROUP BY poster_id ORDER BY cnt DESC LIMIT 1";
+$res0 = mysql_query($sql0);
+while($row0 = mysql_fetch_assoc($res0))
+{
+$user_posts7 = $row0['cnt'];
+
 $sql = "SELECT t.poster_id, s.username, s.user_avatar_type, s.user_avatar, s.user_avatar_width, s.user_avatar_height, s.user_type, s.user_colour, s.user_lastvisit, s.user_regdate, s.user_id, COUNT(poster_id) as cnt FROM " . POSTS_TABLE . " 
 AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.poster_id) 
 WHERE poster_id > '2' AND post_time >= {$timestamp_ot} AND post_time <= {$timestamp_do} GROUP BY poster_id ORDER BY cnt DESC";
@@ -149,6 +156,7 @@ $user_avatar_type = AVATAR_REMOTE;
 }
 $avatar = array('user_avatar' => $user_avatar,'user_avatar_type' => $user_avatar_type,'user_avatar_width' => '40','user_avatar_height' => '40');
 $useravatar = phpbb_get_user_avatar($avatar);
+if ($user_posts==$user_posts7){
 $i++;    
 			$this->template->assign_block_vars('forecast', array(
 'NAME'			=> "$username",
@@ -158,6 +166,8 @@ $i++;
 'VISIT'			=> "$user_lastvisit",
 'COMMENT'		=> $this->user->lang['FORECAST_COMMENT'],
 			));
+}
+}
 }
 if ($i<1){
 			$this->template->assign_block_vars('forecast', array(
