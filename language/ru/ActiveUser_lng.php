@@ -51,6 +51,7 @@ $lang = array_merge($lang, array(
 	'TEST_PAGE_TITLE'		=> 'Конкурс на самого активного пользователя',
 	'ICON_PAGE_TITLE'		=> 'Конкурс',
 	'INFO_TITLE'			=> 'Информация о конкурсе',
+	'TIMEZONE'			=> 'Etc/GMT-5',
 	'AVATAR'			=> 'Аватар',
 	'NAME'				=> 'Имя',
 	'DATE'				=> 'Зарегистрирован',

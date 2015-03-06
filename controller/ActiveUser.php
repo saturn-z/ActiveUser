@@ -45,84 +45,88 @@ class ActiveUser
 	public function main()
 	{
 
+$timezone = $this->user->lang['TIMEZONE'];
+date_default_timezone_set($timezone);
 
-date_default_timezone_set('Etc/GMT-5');
-$month_Array = Array(
-"",
-$this->user->lang['JAN'],
-$this->user->lang['FEB'],
-$this->user->lang['MAR'],
-$this->user->lang['APR'],
-$this->user->lang['MAY'],
-$this->user->lang['JUN'],
-$this->user->lang['JUL'],
-$this->user->lang['AUG'],
-$this->user->lang['SEP'],
-$this->user->lang['OCT'],
-$this->user->lang['NOV'],
-$this->user->lang['DEC']
-);
-$month_real_Array = Array(
-"",
-$this->user->lang['JAN2'],
-$this->user->lang['FEB2'],
-$this->user->lang['MAR2'],
-$this->user->lang['APR2'],
-$this->user->lang['MAY2'],
-$this->user->lang['JUN2'],
-$this->user->lang['JUL2'],
-$this->user->lang['AUG2'],
-$this->user->lang['SEP2'],
-$this->user->lang['OCT2'],
-$this->user->lang['NOV2'],
-$this->user->lang['DEC2']
-);    
+	$month_Array = Array(
+		"",
+		$this->user->lang['JAN'],
+		$this->user->lang['FEB'],
+		$this->user->lang['MAR'],
+		$this->user->lang['APR'],
+		$this->user->lang['MAY'],
+		$this->user->lang['JUN'],
+		$this->user->lang['JUL'],
+		$this->user->lang['AUG'],
+		$this->user->lang['SEP'],
+		$this->user->lang['OCT'],
+		$this->user->lang['NOV'],
+		$this->user->lang['DEC']
+	);
+
+	$month_real_Array = Array(
+		"",
+		$this->user->lang['JAN2'],
+		$this->user->lang['FEB2'],
+		$this->user->lang['MAR2'],
+		$this->user->lang['APR2'],
+		$this->user->lang['MAY2'],
+		$this->user->lang['JUN2'],
+		$this->user->lang['JUL2'],
+		$this->user->lang['AUG2'],
+		$this->user->lang['SEP2'],
+		$this->user->lang['OCT2'],
+		$this->user->lang['NOV2'],
+		$this->user->lang['DEC2']
+	);
+    
 $pmonth = date("n", strtotime('first day of -1 month'));
 $pmonth_real = date("n");
 
-			$this->template->assign_block_vars('title', array(
-'MONTH'		=> "".$this->user->lang['FORECAST_WINNERS']." $month_real_Array[$pmonth_real]",
-'WINNERS'	=> $this->user->lang['WINNERS'],
-			));
+				$this->template->assign_block_vars('title', array(
+	'MONTH'		=> "".$this->user->lang['FORECAST_WINNERS']." $month_real_Array[$pmonth_real]",
+	'WINNERS'	=> $this->user->lang['WINNERS'],
+				));
 
 //Проверяем запись в БД, если нет добавляем
 $arhive_date = date("d.m.Y", strtotime('first day of -1 month'));
 $sql = "SELECT date FROM " . ACTIVE_USER_TABLE . " WHERE date LIKE '$arhive_date'";
-$res = mysql_query($sql);
-if (mysql_num_rows($res) == 0){
-date_default_timezone_set('Etc/GMT-5');
-$timestamp = time();
-$curDate_ot = date("U", strtotime('first day of -1 month'));
-$curDate_do = date("U", strtotime(date('Y-m-1')));
-$date_time_array_ot = getdate($curDate_ot);
-$date_time_array_do = getdate($curDate_do);
-$month_ot = $date_time_array_ot['mon'];
-$year_ot = $date_time_array_ot['year'];
-$month_do = $date_time_array_do['mon'];
-$year_do = $date_time_array_do['year'];
-$timestamp_ot = mktime(0,0,0,$month_ot,1,$year_ot);
-$timestamp_do = mktime(0,0,0,$month_do,1,$year_do);
-
-$sql0 = "SELECT poster_id, COUNT(poster_id) as cnt  FROM " . POSTS_TABLE . " WHERE poster_id > '2' 
-AND post_time >= {$timestamp_ot} AND post_time <= {$timestamp_do}
-GROUP BY poster_id ORDER BY cnt DESC, rand() limit 0,1";
-$res0 = mysql_query($sql0);
-if (mysql_num_rows($res0) == 0){
-$this->db->sql_query("INSERT INTO " . ACTIVE_USER_TABLE . " (user_id, date, user_posts) VALUES ('0', '$arhive_date', '0')");
-}
-else{
-while($row0 = mysql_fetch_assoc($res0))
+$res = $this->db->sql_query($sql);
+if ($this->db->sql_affectedrows($res) == 0)
 {
-$lider_id = $row0['poster_id'];
-$lider_posts = $row0['cnt'];
-$this->db->sql_query("INSERT INTO " . ACTIVE_USER_TABLE . " (user_id, date, user_posts) VALUES ('$lider_id', '$arhive_date', '$lider_posts')");
-}
-}
+	$timestamp = time();
+	$curDate_ot = date("U", strtotime('first day of -1 month'));
+	$curDate_do = date("U", strtotime(date('Y-m-1')));
+	$date_time_array_ot = getdate($curDate_ot);
+	$date_time_array_do = getdate($curDate_do);
+	$month_ot = $date_time_array_ot['mon'];
+	$year_ot = $date_time_array_ot['year'];
+	$month_do = $date_time_array_do['mon'];
+	$year_do = $date_time_array_do['year'];
+	$timestamp_ot = mktime(0,0,0,$month_ot,1,$year_ot);
+	$timestamp_do = mktime(0,0,0,$month_do,1,$year_do);
+
+	$sql0 = "SELECT poster_id, COUNT(poster_id) as cnt  FROM " . POSTS_TABLE . " WHERE poster_id > '2' 
+	AND post_time >= {$timestamp_ot} AND post_time <= {$timestamp_do}
+	GROUP BY poster_id ORDER BY cnt DESC, rand()";
+	$res0 = $this->db->sql_query_limit($sql0, 1);
+		if ($this->db->sql_affectedrows($res0) == 0)
+		{
+			$this->db->sql_query("INSERT INTO " . ACTIVE_USER_TABLE . " (user_id, date, user_posts) VALUES ('0', '$arhive_date', '0')");
+		}
+		else
+		{
+			while($row0 = $this->db->sql_fetchrow($res0))
+			{
+				$lider_id = $row0['poster_id'];
+				$lider_posts = $row0['cnt'];
+				$this->db->sql_query("INSERT INTO " . ACTIVE_USER_TABLE . " (user_id, date, user_posts) VALUES ('$lider_id', '$arhive_date', '$lider_posts')");
+			}
+		}
 }
 //Проверяем запись в БД, если нет добавляем
 
 //Прогноз победителей
-date_default_timezone_set('Etc/GMT-5');
 $timestamp = time();
 $curDate_ot = date("U", strtotime(date('Y-m-1')));
 $date_time_array_ot = getdate($curDate_ot);
@@ -133,51 +137,55 @@ $timestamp_do = date("U");
 $i = "0";
 
 $sql0 = "SELECT poster_id, COUNT(poster_id) as cnt  FROM " . POSTS_TABLE . " WHERE poster_id > '2' AND post_time >= {$timestamp_ot} AND post_time <= {$timestamp_do} GROUP BY poster_id ORDER BY cnt DESC LIMIT 1";
-$res0 = mysql_query($sql0);
-while($row0 = mysql_fetch_assoc($res0))
-{
-$user_posts7 = $row0['cnt'];
+$res0 = $this->db->sql_query($sql0);
+	while($row0 = $this->db->sql_fetchrow($res0))
+	{
+		$user_posts7 = $row0['cnt'];
 
-$sql = "SELECT t.poster_id, s.username, s.user_avatar_type, s.user_avatar, s.user_avatar_width, s.user_avatar_height, s.user_type, s.user_colour, s.user_lastvisit, s.user_regdate, s.user_id, COUNT(poster_id) as cnt FROM " . POSTS_TABLE . " 
-AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.poster_id) 
-WHERE poster_id > '2' AND post_time >= {$timestamp_ot} AND post_time <= {$timestamp_do} GROUP BY poster_id ORDER BY cnt DESC";
-$res = mysql_query($sql);
-while($row = mysql_fetch_assoc($res)) 
-{ 
-$user_posts = $row['cnt'];
-$user_lastvisit = date("d.m.Y, H:i", $row['user_lastvisit']);  
-$user_avatar = $row['user_avatar'];
-$user_avatar_type = $row['user_avatar_type'];
-$user_regdate = date("d.m.Y", $row['user_regdate']);
-$username = get_username_string((($row['user_type'] == USER_IGNORE) ? 'no_profile' : 'full'), $row['user_id'], $row['username'], $row['user_colour']);
-if ($user_avatar == ""){
-$user_avatar = $this->ext_root_path . '/images/no_avatar.gif';
-$user_avatar_type = AVATAR_REMOTE;
-}
-$avatar = array('user_avatar' => $user_avatar,'user_avatar_type' => $user_avatar_type,'user_avatar_width' => '40','user_avatar_height' => '40');
-$useravatar = phpbb_get_user_avatar($avatar);
-if ($user_posts==$user_posts7){
-$i++;    
-			$this->template->assign_block_vars('forecast', array(
-'NAME'			=> "$username",
-'POSTS'			=> "$user_posts",
-'DATE'			=> "$user_regdate",
-'AVATAR'		=> "$useravatar",
-'VISIT'			=> "$user_lastvisit",
-'COMMENT'		=> $this->user->lang['FORECAST_COMMENT'],
-			));
-}
-}
-}
-if ($i<1){
-			$this->template->assign_block_vars('forecast', array(
-'NAME'			=> "",
-'POSTS'			=> "",
-'DATE'			=> "",
-'AVATAR'		=> "",
-'VISIT'			=> "",
-'COMMENT'		=> "".$this->user->lang['FORECAST_COMMENT_NO']." $month_real_Array[$pmonth_real].",
-			));
+		$sql = "SELECT t.poster_id, s.username, s.user_avatar_type, s.user_avatar, s.user_avatar_width, s.user_avatar_height, s.user_type, s.user_colour, s.user_lastvisit, s.user_regdate, s.user_id, COUNT(poster_id) as cnt FROM " . POSTS_TABLE . " 
+		AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.poster_id) 
+		WHERE poster_id > '2' AND post_time >= {$timestamp_ot} AND post_time <= {$timestamp_do} GROUP BY poster_id ORDER BY cnt DESC";
+		$res = $this->db->sql_query($sql);
+			while($row = $this->db->sql_fetchrow($res)) 
+			{ 
+				$user_posts = $row['cnt'];
+				$user_lastvisit = date("d.m.Y, H:i", $row['user_lastvisit']);  
+				$user_avatar = $row['user_avatar'];
+				$user_avatar_type = $row['user_avatar_type'];
+				$user_regdate = date("d.m.Y", $row['user_regdate']);
+				$username = get_username_string((($row['user_type'] == USER_IGNORE) ? 'no_profile' : 'full'), $row['user_id'], $row['username'], $row['user_colour']);
+					if ($user_avatar == "")
+					{
+						$user_avatar = $this->ext_root_path . '/images/no_avatar.gif';
+						$user_avatar_type = AVATAR_REMOTE;
+					}
+				$avatar = array('user_avatar' => $user_avatar,'user_avatar_type' => $user_avatar_type,'user_avatar_width' => '40','user_avatar_height' => '40');
+				$useravatar = phpbb_get_user_avatar($avatar);
+					if ($user_posts==$user_posts7)
+					{
+						$i++;    
+						$this->template->assign_block_vars('forecast', array(
+			'NAME'			=> "$username",
+			'POSTS'			=> "$user_posts",
+			'DATE'			=> "$user_regdate",
+			'AVATAR'		=> "$useravatar",
+			'VISIT'			=> "$user_lastvisit",
+			'COMMENT'		=> $this->user->lang['FORECAST_COMMENT'],
+						));
+					}
+			}
+	}
+
+if ($i < 1)
+{
+				$this->template->assign_block_vars('forecast', array(
+	'NAME'			=> "",
+	'POSTS'			=> "",
+	'DATE'			=> "",
+	'AVATAR'		=> "",
+	'VISIT'			=> "",
+	'COMMENT'		=> "".$this->user->lang['FORECAST_COMMENT_NO']." $month_real_Array[$pmonth_real].",
+				));
 }
 //Прогноз победителей
 
@@ -185,43 +193,48 @@ if ($i<1){
 $result = $this->db->sql_query("SELECT t.user_id, t.date, t.user_posts, s.username, s.user_avatar_type, s.user_avatar, s.user_avatar_width, s.user_avatar_height, s.user_type, s.user_colour, s.user_lastvisit, s.user_regdate, s.user_id FROM " . ACTIVE_USER_TABLE . " 
 AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.user_id) 
 ORDER BY t.id DESC limit 0,12");
-while ($row = $this->db->sql_fetchrow($result)) {
-$date_act = $row['date'];
-$posts = $row['user_posts'];
-$date_a = date("n",strtotime($date_act));
-$date_ab = $month_Array[$date_a];
-$date_abc = $month_real_Array[$date_a];
-$user_lastvisit = date("d.m.Y, H:i", $row['user_lastvisit']);  
-$user_avatar = $row['user_avatar'];
-$user_avatar_type = $row['user_avatar_type'];
-$user_regdate = date("d.m.Y", $row['user_regdate']);
-$username = get_username_string((($row['user_type'] == USER_IGNORE) ? 'no_profile' : 'full'), $row['user_id'], $row['username'], $row['user_colour']);
-if ($user_avatar == ""){
-$user_avatar = $this->ext_root_path . '/images/no_avatar.gif';
-$user_avatar_type = AVATAR_REMOTE;
-}
-$avatar = array('user_avatar' => $user_avatar,'user_avatar_type' => $user_avatar_type,'user_avatar_width' => '40','user_avatar_height' => '40');
-$useravatar = phpbb_get_user_avatar($avatar);
-if ($posts == "0"){
-			$this->template->assign_block_vars('arhive', array(
-'NAME'			=> "",
-'POSTS'			=> "",
-'DATE'			=> "",
-'AVATAR'		=> "",
-'VISIT'			=> "",
-'COMMENT'		=> "".$this->user->lang['FORECAST_COMMENT_NO']." $date_abc.",
+	while ($row = $this->db->sql_fetchrow($result)) 
+	{
+		$date_act = $row['date'];
+		$posts = $row['user_posts'];
+		$date_a = date("n",strtotime($date_act));
+		$date_ab = $month_Array[$date_a];
+		$date_abc = $month_real_Array[$date_a];
+		$user_lastvisit = date("d.m.Y, H:i", $row['user_lastvisit']);  
+		$user_avatar = $row['user_avatar'];
+		$user_avatar_type = $row['user_avatar_type'];
+		$user_regdate = date("d.m.Y", $row['user_regdate']);
+		$username = get_username_string((($row['user_type'] == USER_IGNORE) ? 'no_profile' : 'full'), $row['user_id'], $row['username'], $row['user_colour']);
+			if ($user_avatar == "")
+			{
+				$user_avatar = $this->ext_root_path . '/images/no_avatar.gif';
+				$user_avatar_type = AVATAR_REMOTE;
+			}
+		$avatar = array('user_avatar' => $user_avatar,'user_avatar_type' => $user_avatar_type,'user_avatar_width' => '40','user_avatar_height' => '40');
+		$useravatar = phpbb_get_user_avatar($avatar);
+			if ($posts == "0")
+			{
+				$this->template->assign_block_vars('arhive', array(
+	'NAME'			=> "",
+	'POSTS'			=> "",
+	'DATE'			=> "",
+	'AVATAR'		=> "",
+	'VISIT'			=> "",
+	'COMMENT'		=> "".$this->user->lang['FORECAST_COMMENT_NO']." $date_abc.",
+				));
+			}
+			else
+			{
+				$this->template->assign_block_vars('arhive', array(
+	'NAME'			=> "$username",
+	'POSTS'			=> "$posts",
+	'DATE'			=> "$user_regdate",
+	'AVATAR'		=> "$useravatar",
+	'VISIT'			=> "$user_lastvisit",
+	'COMMENT'		=> "<font color=\"green\"><b>".$this->user->lang['WINNER']." $date_ab.</b></font>".$this->user->lang['WINNER_COMMENT']."",
 			));
-}
-else{
-			$this->template->assign_block_vars('arhive', array(
-'NAME'			=> "$username",
-'POSTS'			=> "$posts",
-'DATE'			=> "$user_regdate",
-'AVATAR'		=> "$useravatar",
-'VISIT'			=> "$user_lastvisit",
-'COMMENT'		=> "<font color=\"green\"><b>".$this->user->lang['WINNER']." $date_ab.</b></font>".$this->user->lang['WINNER_COMMENT']."",
-			));
-}}
+			}
+	}
 //Список победителей по месяцам
 
 
