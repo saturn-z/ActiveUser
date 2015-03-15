@@ -2,8 +2,7 @@
 <!-- INCLUDE overall_header.html -->
 <h2>{L_TEST_PAGE_TITLE}</h2>
 
-
-<div class="forumbg forumbg-table">
+<div class="forabg">
 	<div class="inner">
 		<table class="table1 show-header responsive">
 		<thead>
@@ -13,19 +12,9 @@
 		<tbody>
 			<tr class="<!-- IF row.S_ROW_COUNT is even -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
 				<td class="ActiveUser">
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgColor="#ffffff" vAlign="top">
-<font style="FONT-SIZE: 12px">{L_INFO_HEADER} </font>
-</td></tr></table>
-
-<center>
-<table width="98%" border="0" cellspacing="0" cellpadding="3"><tr><td bgColor="#FFFFCC" class="contur" vAlign="top" align="center">
-<font style="FONT-SIZE: 14px" color="#800000"><b>{L_IMPORTANT}</b></font>
-<br>
-<font style="FONT-SIZE: 12px" color="#009900">{L_INFO_FOOTER}</font>
-</td></tr></table>
-</center>
-
+					<!-- BEGIN title -->
+					{title.TEXT_TITLE}
+					<!-- END title -->
 				</td>
 			</tr>
 		</tbody>
@@ -38,7 +27,7 @@
 <h3>{title.MONTH}</h3>
 <!-- END title -->
 
-<div class="forumbg forumbg-table">
+<div class="forabg">
 	<div class="inner">
 		<table class="table1 show-header responsive">
 		<thead>
@@ -71,7 +60,7 @@
 <h3>{title.WINNERS}</h3>
 <!-- END title -->
 
-<div class="forumbg forumbg-table">
+<div class="forabg">
 	<div class="inner">
 		<table class="table1 show-header responsive">
 		<thead>
@@ -99,5 +88,14 @@
 	</div>
 </div>
 
+<div class="pagination">
+	{TOTAL_ITEMS}
+	<!-- IF .pagination -->
+		<!-- INCLUDE pagination.html -->
+	<!-- ELSE -->
+		 &bull; {PAGE_NUMBER}
+	<!-- ENDIF -->
+</div>
+<br clear="all" />
 
 <!-- INCLUDE overall_footer.html -->

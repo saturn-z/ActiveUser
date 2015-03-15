@@ -3,6 +3,7 @@ services:
         class: saturnZ\ActiveUser\controller\ActiveUser
         arguments:
             - @config
+            - @config_text
             - @request
             - @pagination
             - @dbal.conn
