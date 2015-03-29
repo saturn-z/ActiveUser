@@ -7,7 +7,7 @@
 *
 */
 
-namespace saturnZ\ActiveUser\migrations;
+namespace saturnZ\activeuser\migrations;
 
 class version_0_0_1 extends \phpbb\db\migration\migration
 {
@@ -51,7 +51,7 @@ class version_0_0_1 extends \phpbb\db\migration\migration
 	{
 		return array(
 			// Current version
-			array('config.add', array('ActiveUser_version', '0.0.1')),
+			array('config.add', array('activeuser_version', '0.0.1')),
 		);
 	}
 }

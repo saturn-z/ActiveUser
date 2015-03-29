@@ -1,10 +1,10 @@
 {
-    "name": "saturnZ/ActiveUser",
+    "name": "saturnZ/activeuser",
     "type": "phpbb-extension",
     "description": "Конкурс на самого активного пользователя",
     "homepage": "http://phpbbguru.net",
-    "version": "0.0.2",
-    "time": "2015-03-15",
+    "version": "0.0.3",
+    "time": "2015-03-29",
     "license": "GPL-2.0",
     "authors": [
         {

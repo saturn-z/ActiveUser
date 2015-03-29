@@ -13,26 +13,34 @@
 			<dd><input name="warning" type="text" size="2" value="{WARNING}"></dd>
 		</dl>
 		<dl>
-			<dt><label for="ActiveUser_group">{L_ACP_ACTIVE_USER_GROUP}{L_COLON}</label><br /><span>{L_ACP_ACTIVE_USER_GROUP_INFO}<br />{L_ACP_ACTIVE_USER_CTRL}</span></dt>
+			<dt><label for="activeuser_group">{L_ACP_ACTIVE_USER_GROUP}{L_COLON}</label><br /><span>{L_ACP_ACTIVE_USER_GROUP_INFO}<br />{L_ACP_ACTIVE_USER_CTRL}</span></dt>
 			<dd>
-				<select id="ActiveUser_group" size="10" multiple="multiple" name="ActiveUser_group[]">
+				<select id="activeuser_group" size="10" multiple="multiple" name="activeuser_group[]">
 					<!-- BEGIN group_setting -->
 					<option value="{group_setting.GROUP_ID}"<!-- IF group_setting.SELECTED -->selected="selected"<!-- ENDIF -->>{group_setting.GROUP_NAME}</option>
 					<!-- END group_setting -->
 				</select>
 			</dd>
 		</dl>
-		<dl>
-			<dt><label for="ActiveUser_text_title">{L_ACP_ACTIVE_USER_TEXT_TITLE}{L_COLON}</label><br /><span>{L_ACP_ACTIVE_USER_TEXT_TITLE_INFO}</span></dt>
- 		   <dd><textarea rows="6" cols="30" name="ActiveUser_text_title">{TEXT}</textarea></dd>
+
 		</dl>
 		<dl>
-			<dt><label for="ActiveUser_text_winner">{L_ACP_ACTIVE_USER_TEXT_WINNER}{L_COLON}</label><br /><span>{L_ACP_ACTIVE_USER_TEXT_WINNER_INFO}</span></dt>
- 		   <dd><textarea rows="3" cols="30" name="ActiveUser_text_winner">{TEXT_WINNER}</textarea></dd>
+			<dt><label for="activeuser_excluded">{L_ACP_ACTIVE_USER_EXCLUDED_FORUMS}{L_COLON}</label><br /><span>{L_ACP_ACTIVE_USER_EXCLUDED_FORUMS_INFO}<br />{L_ACP_ACTIVE_USER_CTRL}</span></dt>
+			<dd><select id="activeuser_excluded" name="activeuser_excluded[]" multiple="multiple" size="10">{EXCLUDED_FORUMS}</select></dd>
 		</dl>
 		<dl>
-			<dt><label for="ActiveUser_text_forecast">{L_ACP_ACTIVE_USER_TEXT_FORECAST}{L_COLON}</label><br /><span>{L_ACP_ACTIVE_USER_TEXT_FORECAST_INFO}</span></dt>
- 		   <dd><textarea rows="3" cols="30" name="ActiveUser_text_forecast">{TEXT_FORECAST}</textarea></dd>
+
+		<dl>
+			<dt><label for="activeuser_text_title">{L_ACP_ACTIVE_USER_TEXT_TITLE}{L_COLON}</label><br /><span>{L_ACP_ACTIVE_USER_TEXT_TITLE_INFO}</span></dt>
+ 		   <dd><textarea rows="6" cols="30" name="activeuser_text_title">{TEXT}</textarea></dd>
+		</dl>
+		<dl>
+			<dt><label for="activeuser_text_winner">{L_ACP_ACTIVE_USER_TEXT_WINNER}{L_COLON}</label><br /><span>{L_ACP_ACTIVE_USER_TEXT_WINNER_INFO}</span></dt>
+ 		   <dd><textarea rows="3" cols="30" name="activeuser_text_winner">{TEXT_WINNER}</textarea></dd>
+		</dl>
+		<dl>
+			<dt><label for="activeuser_text_forecast">{L_ACP_ACTIVE_USER_TEXT_FORECAST}{L_COLON}</label><br /><span>{L_ACP_ACTIVE_USER_TEXT_FORECAST_INFO}</span></dt>
+ 		   <dd><textarea rows="3" cols="30" name="activeuser_text_forecast">{TEXT_FORECAST}</textarea></dd>
 		</dl>
 
 

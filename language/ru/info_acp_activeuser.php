@@ -1,7 +1,7 @@
 <?php
 /**
 *
-* ActiveUser [Russian]
+* activeuser [Russian]
 *
 * @package Active user
 * @copyright (c) 2013 phpBB Group
@@ -39,4 +39,6 @@ $lang = array_merge($lang, array(
 	'ACP_ACTIVE_USER_TEXT_WINNER_INFO'		=> 'Например: Выиграл приз 200 рублей.<br />Можно использовать любой <strong>html</strong> код.',
 	'ACP_ACTIVE_USER_TEXT_FORECAST'			=> 'Комментарий в таблице прогноза победителей',
 	'ACP_ACTIVE_USER_TEXT_FORECAST_INFO'	=> 'Например: Может выиграть приз, 200 рублей.<br />Можно использовать любой <strong>html</strong> код.',
+	'ACP_ACTIVE_USER_EXCLUDED_FORUMS'		=> 'Исключённые форумы',
+	'ACP_ACTIVE_USER_EXCLUDED_FORUMS_INFO'	=> 'Сообщения из выбранных здесь форумов не будут учитываться в конкурсе.',
 ));

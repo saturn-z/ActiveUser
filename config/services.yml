@@ -1,6 +1,6 @@
 services:
-    saturnZ.ActiveUser.controller:
-        class: saturnZ\ActiveUser\controller\ActiveUser
+    saturnZ.activeuser.controller:
+        class: saturnZ\activeuser\controller\activeuser
         arguments:
             - @config
             - @config_text
@@ -14,8 +14,8 @@ services:
             - %core.root_path%
             - %core.php_ext%
             - %core.table_prefix%
-    saturnZ.ActiveUser.listener:
-        class: saturnZ\ActiveUser\event\listener
+    saturnZ.activeuser.listener:
+        class: saturnZ\activeuser\event\listener
         arguments:
             - @template
             - %core.root_path%

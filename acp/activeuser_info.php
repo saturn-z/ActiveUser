@@ -7,20 +7,20 @@
 *
 */
 
-namespace saturnZ\ActiveUser\acp;
+namespace saturnZ\activeuser\acp;
 
 class activeuser_info
 {
 	function module()
 	{
 		return array(
-			'filename'	=> '\saturnZ\ActiveUser\acp\activeuser_module',
+			'filename'	=> '\saturnZ\activeuser\acp\activeuser_module',
 			'title'		=> 'ACP_ACTIVE_USER',
-			'version'	=> '0.0.2',
+			'version'	=> '0.0.3',
 			'modes'		=> array(
 				'settings'	=> array(
 					'title' => 'ACP_ACTIVE_USER_SETTINGS', 
-					'auth' => 'ext_saturnZ/ActiveUser && acl_a_board', 
+					'auth' => 'ext_saturnZ/activeuser && acl_a_board', 
 					'cat' => array('ACP_ACTIVE_USER')),
 			),
 		);

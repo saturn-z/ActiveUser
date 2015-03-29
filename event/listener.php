@@ -7,7 +7,7 @@
 *
 */
 
-namespace saturnZ\ActiveUser\event;
+namespace saturnZ\activeuser\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -44,7 +44,7 @@ class listener implements EventSubscriberInterface
 	public function add_page_header_link($event)
 	{
 		$this->template->assign_vars(array(
-			'U_MY_TEST' => append_sid("{$this->phpbb_root_path}ActiveUser"),
+			'U_MY_TEST' => append_sid("{$this->phpbb_root_path}activeuser"),
 		));
 	}
 
@@ -52,8 +52,8 @@ class listener implements EventSubscriberInterface
 	{
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
-			'ext_name' => 'saturnZ/ActiveUser',
-			'lang_set' => 'ActiveUser_lng',
+			'ext_name' => 'saturnZ/activeuser',
+			'lang_set' => 'activeuser_lng',
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
