@@ -99,6 +99,9 @@ $text_forecast = htmlspecialchars_decode($this->config_text->get('activeuser_tex
 $you_userid = $this->user->data['user_id'];
 $start_activeuser = $this->config['activeuser_start'];
 $excluded_forums = $this->config_text->get('activeuser_excluded');
+$forecast_limit = $this->config['activeuser_forecast_limit'];
+$winner_limit = $this->config['activeuser_winner_limit'];
+
 
 	if ($perpage == 0)
 	{
@@ -113,6 +116,7 @@ $excluded_forums = $this->config_text->get('activeuser_excluded');
 	{
 		$excluded_forums = 0;
 	}
+
 
 				$this->template->assign_block_vars('title', array(
 	'MONTH'			=> "".$this->user->lang['FORECAST_WINNERS']." $month_real_Array[$pmonth_real]",
@@ -148,7 +152,7 @@ if ($this->db->sql_affectedrows($res) == 0)
 	$year_do = $date_time_array_do['year'];
 	$timestamp_ot = mktime(0,0,0,$month_ot,1,$year_ot);
 	$timestamp_do = mktime(0,0,0,$month_do,1,$year_do);
-
+$pos = "0";
 	$sql0 = "SELECT t.poster_id, t.forum_id, s.user_warnings, s.user_id, COUNT(poster_id) as cnt 
 			FROM " . POSTS_TABLE . " AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.poster_id) 
 			WHERE post_time >= {$timestamp_ot} 
@@ -158,18 +162,19 @@ if ($this->db->sql_affectedrows($res) == 0)
 							AND forum_id NOT IN ($excluded_forums)
 			GROUP BY poster_id 
 			ORDER BY cnt DESC, rand()";
-	$res0 = $this->db->sql_query_limit($sql0, 1);
+	$res0 = $this->db->sql_query_limit($sql0, $winner_limit);
 		if ($this->db->sql_affectedrows($res0) == 0)
 		{
-			$this->db->sql_query("INSERT INTO " . ACTIVE_USER_TABLE . " (user_id, date, user_posts) VALUES ('0', '$arhive_date', '0')");
+			$this->db->sql_query("INSERT INTO " . ACTIVE_USER_TABLE . " (user_id, date, user_posts, position) VALUES ('0', '$arhive_date', '0', '0')");
 		}
 		else
 		{
 			while($row0 = $this->db->sql_fetchrow($res0))
 			{
+$pos++;
 				$lider_id = $row0['poster_id'];
 				$lider_posts = $row0['cnt'];
-				$this->db->sql_query("INSERT INTO " . ACTIVE_USER_TABLE . " (user_id, date, user_posts) VALUES ('$lider_id', '$arhive_date', '$lider_posts')");
+				$this->db->sql_query("INSERT INTO " . ACTIVE_USER_TABLE . " (user_id, date, user_posts, position) VALUES ('$lider_id', '$arhive_date', '$lider_posts', '$pos')");
 			}
 		}
 }
@@ -187,20 +192,6 @@ $timestamp_do = date("U");
 
 $i = "0";
 
-	$sql0 = "SELECT t.poster_id, t.forum_id, s.user_warnings, s.user_id, COUNT(poster_id) as cnt 
-			FROM " . POSTS_TABLE . " AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.poster_id) 
-			WHERE post_time >= {$timestamp_ot} 
-				AND post_time <= {$timestamp_do} 
-					AND user_warnings <= {$warning} 
-						AND group_id IN ($groups)
-							AND forum_id NOT IN ($excluded_forums)
-			GROUP BY poster_id 
-			ORDER BY cnt DESC";
-$res0 = $this->db->sql_query_limit($sql0, 1);
-	while($row0 = $this->db->sql_fetchrow($res0))
-	{
-		$user_posts7 = $row0['cnt'];
-
 		$sql = "SELECT t.poster_id, t.forum_id, s.user_warnings, s.username, s.user_avatar_type, s.user_avatar, s.user_avatar_width, s.user_avatar_height, s.user_type, s.user_colour, s.user_lastvisit, s.user_regdate, s.user_id, COUNT(poster_id) as cnt 
 			FROM " . POSTS_TABLE . " AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.poster_id) 
 			WHERE post_time >= {$timestamp_ot} 
@@ -209,8 +200,8 @@ $res0 = $this->db->sql_query_limit($sql0, 1);
 						AND group_id IN ($groups)
 							AND forum_id NOT IN ($excluded_forums)
 			GROUP BY poster_id 
-			ORDER BY cnt DESC";
-		$res = $this->db->sql_query($sql);
+			ORDER BY cnt DESC, rand()";
+		$res = $this->db->sql_query_limit($sql, $forecast_limit);
 			while($row = $this->db->sql_fetchrow($res)) 
 			{ 
 				$user_posts = $row['cnt'];
@@ -226,8 +217,6 @@ $res0 = $this->db->sql_query_limit($sql0, 1);
 					}
 				$avatar = array('user_avatar' => $user_avatar,'user_avatar_type' => $user_avatar_type,'user_avatar_width' => '40','user_avatar_height' => '40');
 				$useravatar = phpbb_get_user_avatar($avatar);
-					if ($user_posts==$user_posts7)
-					{
 						$i++;    
 						$this->template->assign_block_vars('forecast', array(
 			'NAME'			=> "$username",
@@ -237,9 +226,7 @@ $res0 = $this->db->sql_query_limit($sql0, 1);
 			'VISIT'			=> "$user_lastvisit",
 			'COMMENT'		=> "$text_forecast",
 						));
-					}
 			}
-	}
 
 if ($i < 1)
 {
@@ -306,7 +293,7 @@ else
 		$pagination_url = append_sid("{$this->phpbb_root_path}activeuser");
 		$this->pagination->generate_template_pagination($pagination_url, 'pagination', 'start', $total_count, $perpage, $start);
 
-		$sql = "SELECT t.user_id, t.date, t.user_posts, s.username, s.user_avatar_type, s.user_avatar, s.user_avatar_width, s.user_avatar_height, s.user_type, s.user_colour, s.user_lastvisit, s.user_regdate, s.user_id 
+		$sql = "SELECT t.user_id, t.date, t.user_posts, t.position, s.username, s.user_avatar_type, s.user_avatar, s.user_avatar_width, s.user_avatar_height, s.user_type, s.user_colour, s.user_lastvisit, s.user_regdate, s.user_id 
 		FROM " . ACTIVE_USER_TABLE . " AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.user_id) 
 		ORDER BY t.id DESC";
 		$result = $this->db->sql_query_limit($sql, $perpage, $start);
@@ -315,6 +302,7 @@ else
 	{
 		$date_act = $row['date'];
 		$posts = $row['user_posts'];
+		$position = $row['position'];
 		$date_a = date("n",strtotime($date_act));
 		$date_ab = $month_Array[$date_a];
 		$date_abc = $month_real_Array[$date_a];
@@ -344,13 +332,22 @@ else
 			}
 			else
 			{
+	if ($winner_limit > 1)
+	{
+		$position_text = "<br><font color=\"red\"><b>$position ".$this->user->lang['POSITION']."</b></font>";
+	}
+	else
+	{
+		$position_text = '';
+	}
 				$this->template->assign_block_vars('arhive', array(
 	'NAME'			=> "$username",
 	'POSTS'			=> "$posts",
 	'DATE'			=> "$user_regdate",
 	'AVATAR'		=> "$useravatar",
 	'VISIT'			=> "$user_lastvisit",
-	'COMMENT'		=> "<font color=\"green\"><b>".$this->user->lang['WINNER']." $date_ab $year ".$this->user->lang['YEAR'].".</b></font><br>$text_winner",
+	'COMMENT'		=> "<font color=\"green\"><b>".$this->user->lang['WINNER']." $date_ab $year ".$this->user->lang['YEAR'].".</b></font>
+						$position_text<br>$text_winner",
 			));
 			}
 	}

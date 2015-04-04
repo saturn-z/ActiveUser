@@ -16,7 +16,7 @@ class activeuser_info
 		return array(
 			'filename'	=> '\saturnZ\activeuser\acp\activeuser_module',
 			'title'		=> 'ACP_ACTIVE_USER',
-			'version'	=> '0.0.3',
+			'version'	=> '0.0.4',
 			'modes'		=> array(
 				'settings'	=> array(
 					'title' => 'ACP_ACTIVE_USER_SETTINGS', 

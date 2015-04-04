@@ -35,6 +35,8 @@ class activeuser_module
 
 			$config->set('activeuser_perpage', $request->variable('per_page', 6));
 			$config->set('activeuser_warning', $request->variable('warning', 2));
+			$config->set('activeuser_forecast_limit', $request->variable('forecast_limit', 3));
+			$config->set('activeuser_winner_limit', $request->variable('winner_limit', 1));
 			$config->set('activeuser_group', implode(',', $request->variable('activeuser_group', array(0))));
 			$this->config_text->set('activeuser_text_title', $request->variable('activeuser_text_title','',true));
 			$this->config_text->set('activeuser_text_winner', $request->variable('activeuser_text_winner','',true));
@@ -65,6 +67,8 @@ class activeuser_module
 			'U_ACTION'			=> $this->u_action,
 			'PER_PAGE'			=> (isset($this->config['activeuser_perpage'])) ? $this->config['activeuser_perpage'] : 6,
 			'WARNING'			=> (isset($this->config['activeuser_warning'])) ? $this->config['activeuser_warning'] : 2,
+			'FORECAST_LIMIT'	=> (isset($this->config['activeuser_forecast_limit'])) ? $this->config['activeuser_forecast_limit'] : 3,
+			'WINNER_LIMIT'		=> (isset($this->config['activeuser_winner_limit'])) ? $this->config['activeuser_winner_limit'] : 1,
 			'TEXT'				=> $this->config_text->get('activeuser_text_title'),
 			'TEXT_WINNER'		=> $this->config_text->get('activeuser_text_winner'),
 			'TEXT_FORECAST'		=> $this->config_text->get('activeuser_text_forecast'),
