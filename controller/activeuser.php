@@ -52,10 +52,13 @@ class activeuser
 		$this->ext_root_path = 'ext/saturnZ/activeuser';
 	}
 
+
 	public function main()
 	{
 
 	date_default_timezone_set($this->config['board_timezone']);
+
+
 	$month_Array = Array(
 		"",
 		$this->user->lang['JAN'],
@@ -87,7 +90,11 @@ class activeuser
 		$this->user->lang['NOV2'],
 		$this->user->lang['DEC2']
 	);
-    
+
+
+$real_time = time();
+$last_month = strtotime(date('d.m.Y', strtotime('first day of previous month')));
+$current_month = strtotime(date('d.m.Y', strtotime('first day of this month')));
 $pmonth = date("n", strtotime('first day of -1 month'));
 $pmonth_real = date("n");
 $warning = $this->config['activeuser_warning'];
@@ -125,15 +132,10 @@ $winner_limit = $this->config['activeuser_winner_limit'];
 				));
 
 //Проверяем запись в БД, если нет добавляем
-	$start_date = date("U", strtotime('first day of -1 month'));
-	$start_date_array = getdate($start_date);
-	$start_date_month = $start_date_array['mon'];
-	$start_date_year = $start_date_array['year'];
-	$start_date_timestamp = mktime(0,0,0,$start_date_month,1,$start_date_year);
 
-if ($start_date_timestamp >= $start_activeuser)
+if ($last_month >= $start_activeuser)
 {
-$arhive_date = date("d.m.Y", strtotime('first day of -1 month'));
+$arhive_date = date("d.m.Y", strtotime('first day of previous month'));
 $sql = "SELECT date 
 	FROM " . ACTIVE_USER_TABLE . " 
 	WHERE date 
@@ -141,22 +143,12 @@ $sql = "SELECT date
 $res = $this->db->sql_query($sql);
 if ($this->db->sql_affectedrows($res) == 0)
 {
-	$timestamp = time();
-	$curDate_ot = date("U", strtotime('first day of -1 month'));
-	$curDate_do = date("U", strtotime(date('Y-m-1')));
-	$date_time_array_ot = getdate($curDate_ot);
-	$date_time_array_do = getdate($curDate_do);
-	$month_ot = $date_time_array_ot['mon'];
-	$year_ot = $date_time_array_ot['year'];
-	$month_do = $date_time_array_do['mon'];
-	$year_do = $date_time_array_do['year'];
-	$timestamp_ot = mktime(0,0,0,$month_ot,1,$year_ot);
-	$timestamp_do = mktime(0,0,0,$month_do,1,$year_do);
+
 $pos = "0";
 	$sql0 = "SELECT t.poster_id, t.forum_id, s.user_warnings, s.user_id, COUNT(poster_id) as cnt 
 			FROM " . POSTS_TABLE . " AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.poster_id) 
-			WHERE post_time >= {$timestamp_ot} 
-				AND post_time <= {$timestamp_do} 
+			WHERE post_time >= {$last_month} 
+				AND post_time <= {$current_month} 
 					AND user_warnings <= {$warning}
 						AND group_id IN ($groups)
 							AND forum_id NOT IN ($excluded_forums)
@@ -182,20 +174,13 @@ $pos++;
 //Проверяем запись в БД, если нет добавляем
 
 //Прогноз победителей
-$timestamp = time();
-$curDate_ot = date("U", strtotime(date('Y-m-1')));
-$date_time_array_ot = getdate($curDate_ot);
-$month_ot = $date_time_array_ot['mon'];
-$year_ot = $date_time_array_ot['year'];
-$timestamp_ot = mktime(0,0,1,$month_ot,1,$year_ot);
-$timestamp_do = date("U");
 
 $i = "0";
 
 		$sql = "SELECT t.poster_id, t.forum_id, s.user_warnings, s.username, s.user_avatar_type, s.user_avatar, s.user_avatar_width, s.user_avatar_height, s.user_type, s.user_colour, s.user_lastvisit, s.user_regdate, s.user_id, COUNT(poster_id) as cnt 
 			FROM " . POSTS_TABLE . " AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.poster_id) 
-			WHERE post_time >= {$timestamp_ot} 
-				AND post_time <= {$timestamp_do} 
+			WHERE post_time >= {$current_month} 
+				AND post_time <= {$real_time} 
 					AND user_warnings <= {$warning} 
 						AND group_id IN ($groups)
 							AND forum_id NOT IN ($excluded_forums)
@@ -245,8 +230,8 @@ if ($i < 1)
 	$sql_You = "SELECT t.poster_id, t.forum_id, s.username, s.user_id, s.user_type, s.user_colour, s.user_warnings, s.group_id, COUNT(poster_id) as cnt 
 		FROM " . POSTS_TABLE . " AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.poster_id) 
 		WHERE user_id = {$you_userid} 
-			AND post_time >= {$timestamp_ot} 
-				AND post_time <= {$timestamp_do} 
+			AND post_time >= {$current_month} 
+				AND post_time <= {$real_time} 
 					AND user_warnings <= {$warning} 
 						AND group_id IN ($groups)
 							AND forum_id NOT IN ($excluded_forums)
@@ -351,15 +336,13 @@ else
 			));
 			}
 	}
-if ($start_date_timestamp < $start_activeuser)
+if ($last_month < $start_activeuser)
 {
 				$this->template->assign_block_vars('start', array(
 	'TEXT'			=> "".$this->user->lang['TEXT_START_ACTIVEUSER']."",
 				));
 }
 //Список победителей по месяцам
-
-
 
 
 
