@@ -233,10 +233,10 @@ if ($i < 1)
 		ORDER BY cnt DESC";
 	$res_You = $this->db->sql_query($sql_You);
 	$row_You = $this->db->sql_fetchrow($res_You);
-		    $you_user_warnings = $row_You['user_warnings'];
-		    $you_group_id = $row_You['group_id'];
-		    $you_user_posts = $row_You['cnt'];
-		    $you_username = get_username_string((($row_You['user_type'] == USER_IGNORE) ? 'no_profile' : 'full'), $row_You['user_id'], $row_You['username'], $row_You['user_colour']);
+			$you_user_warnings = $row_You['user_warnings'];
+			$you_group_id = $row_You['group_id'];
+			$you_user_posts = $row_You['cnt'];
+			$you_username = get_username_string((($row_You['user_type'] == USER_IGNORE) ? 'no_profile' : 'full'), $row_You['user_id'], $row_You['username'], $row_You['user_colour']);
 
 if($you_user_posts)
 {
