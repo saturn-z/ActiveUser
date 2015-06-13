@@ -46,7 +46,6 @@ class activeuser_module
 			trigger_error($user->lang['CONFIG_UPDATED'] . adm_back_link($this->u_action));
 		}
 
-
 		$groups_ary = explode(',', $this->config['activeuser_group']);
 		// get group info from database and assign the block vars
 		$sql = 'SELECT group_id, group_name 
@@ -61,7 +60,6 @@ class activeuser_module
 				'GROUP_ID'		=> $row['group_id'],
 			));
 		}
-
 
 		$template->assign_vars(array(
 			'U_ACTION'			=> $this->u_action,

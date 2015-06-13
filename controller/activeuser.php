@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 class activeuser
 {
 
-	
 	/** @var string */
 	protected $config;
 	protected $config_text;
@@ -55,11 +54,9 @@ class activeuser
 
 	public function main()
 	{
+		date_default_timezone_set($this->config['board_timezone']);
 
-	date_default_timezone_set($this->config['board_timezone']);
-
-
-	$month_Array = Array(
+	$month_Array = array(
 		"",
 		$this->user->lang['JAN'],
 		$this->user->lang['FEB'],
@@ -75,7 +72,7 @@ class activeuser
 		$this->user->lang['DEC']
 	);
 
-	$month_real_Array = Array(
+	$month_real_Array = array(
 		"",
 		$this->user->lang['JAN2'],
 		$this->user->lang['FEB2'],
@@ -90,7 +87,6 @@ class activeuser
 		$this->user->lang['NOV2'],
 		$this->user->lang['DEC2']
 	);
-
 
 $real_time = time();
 $last_month = strtotime(date('d.m.Y', strtotime('first day of previous month')));
@@ -109,7 +105,6 @@ $excluded_forums = $this->config_text->get('activeuser_excluded');
 $forecast_limit = $this->config['activeuser_forecast_limit'];
 $winner_limit = $this->config['activeuser_winner_limit'];
 
-
 	if ($perpage == 0)
 	{
 		$perpage = 1;
@@ -123,7 +118,6 @@ $winner_limit = $this->config['activeuser_winner_limit'];
 	{
 		$excluded_forums = 0;
 	}
-
 
 				$this->template->assign_block_vars('title', array(
 	'MONTH'			=> "".$this->user->lang['FORECAST_WINNERS']." $month_real_Array[$pmonth_real]",
@@ -177,20 +171,20 @@ $pos++;
 
 $i = "0";
 
-		$sql = "SELECT t.poster_id, t.forum_id, s.user_warnings, s.username, s.user_avatar_type, s.user_avatar, s.user_avatar_width, s.user_avatar_height, s.user_type, s.user_colour, s.user_lastvisit, s.user_regdate, s.user_id, COUNT(poster_id) as cnt 
-			FROM " . POSTS_TABLE . " AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.poster_id) 
-			WHERE post_time >= {$current_month} 
-				AND post_time <= {$real_time} 
-					AND user_warnings <= {$warning} 
+		$sql = "SELECT t.poster_id, t.forum_id, s.user_warnings, s.username, s.user_avatar_type, s.user_avatar, s.user_avatar_width, s.user_avatar_height, s.user_type, s.user_colour, s.user_lastvisit, s.user_regdate, s.user_id, COUNT(poster_id) as cnt
+			FROM " . POSTS_TABLE . " AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.poster_id)
+			WHERE post_time >= {$current_month}
+				AND post_time <= {$real_time}
+					AND user_warnings <= {$warning}
 						AND group_id IN ($groups)
 							AND forum_id NOT IN ($excluded_forums)
-			GROUP BY poster_id 
+			GROUP BY poster_id
 			ORDER BY cnt DESC, rand()";
 		$res = $this->db->sql_query_limit($sql, $forecast_limit);
-			while($row = $this->db->sql_fetchrow($res)) 
-			{ 
+			while($row = $this->db->sql_fetchrow($res))
+			{
 				$user_posts = $row['cnt'];
-				$user_lastvisit = date("d.m.Y, H:i", $row['user_lastvisit']);  
+				$user_lastvisit = date("d.m.Y, H:i", $row['user_lastvisit']);
 				$user_avatar = $row['user_avatar'];
 				$user_avatar_type = $row['user_avatar_type'];
 				$user_regdate = date("d.m.Y", $row['user_regdate']);
@@ -202,7 +196,7 @@ $i = "0";
 					}
 				$avatar = array('user_avatar' => $user_avatar,'user_avatar_type' => $user_avatar_type,'user_avatar_width' => '40','user_avatar_height' => '40');
 				$useravatar = phpbb_get_user_avatar($avatar);
-						$i++;    
+						$i++;
 						$this->template->assign_block_vars('forecast', array(
 			'NAME'			=> "$username",
 			'POSTS'			=> "$user_posts",
@@ -227,20 +221,20 @@ if ($i < 1)
 //Прогноз победителей
 
 //Ваши сообщения
-	$sql_You = "SELECT t.poster_id, t.forum_id, s.username, s.user_id, s.user_type, s.user_colour, s.user_warnings, s.group_id, COUNT(poster_id) as cnt 
-		FROM " . POSTS_TABLE . " AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.poster_id) 
-		WHERE user_id = {$you_userid} 
-			AND post_time >= {$current_month} 
-				AND post_time <= {$real_time} 
-					AND user_warnings <= {$warning} 
+	$sql_You = "SELECT t.poster_id, t.forum_id, s.username, s.user_id, s.user_type, s.user_colour, s.user_warnings, s.group_id, COUNT(poster_id) as cnt
+		FROM " . POSTS_TABLE . " AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.poster_id)
+		WHERE user_id = {$you_userid}
+			AND post_time >= {$current_month}
+				AND post_time <= {$real_time}
+					AND user_warnings <= {$warning}
 						AND group_id IN ($groups)
 							AND forum_id NOT IN ($excluded_forums)
-		GROUP BY poster_id 
+		GROUP BY poster_id
 		ORDER BY cnt DESC";
 	$res_You = $this->db->sql_query($sql_You);
 	$row_You = $this->db->sql_fetchrow($res_You);
 		    $you_user_warnings = $row_You['user_warnings'];
-		    $you_group_id = $row_You['group_id']; 
+		    $you_group_id = $row_You['group_id'];
 		    $you_user_posts = $row_You['cnt'];
 		    $you_username = get_username_string((($row_You['user_type'] == USER_IGNORE) ? 'no_profile' : 'full'), $row_You['user_id'], $row_You['username'], $row_You['user_colour']);
 
@@ -263,7 +257,7 @@ else
 	'TEXT'			=> "".$this->user->lang['TEXT_YOU_POSTS_FALSE']."",
 				));
 }
-//Ваши сообщения 
+//Ваши сообщения
 
 //Список победителей по месяцам
 		$start = $this->request->variable('start', 0);
@@ -278,12 +272,12 @@ else
 		$pagination_url = append_sid("{$this->phpbb_root_path}activeuser");
 		$this->pagination->generate_template_pagination($pagination_url, 'pagination', 'start', $total_count, $perpage, $start);
 
-		$sql = "SELECT t.user_id, t.date, t.user_posts, t.position, s.username, s.user_avatar_type, s.user_avatar, s.user_avatar_width, s.user_avatar_height, s.user_type, s.user_colour, s.user_lastvisit, s.user_regdate, s.user_id 
-		FROM " . ACTIVE_USER_TABLE . " AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.user_id) 
+		$sql = "SELECT t.user_id, t.date, t.user_posts, t.position, s.username, s.user_avatar_type, s.user_avatar, s.user_avatar_width, s.user_avatar_height, s.user_type, s.user_colour, s.user_lastvisit, s.user_regdate, s.user_id
+		FROM " . ACTIVE_USER_TABLE . " AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.user_id)
 		ORDER BY t.id DESC";
 		$result = $this->db->sql_query_limit($sql, $perpage, $start);
 
-	while ($row = $this->db->sql_fetchrow($result)) 
+	while ($row = $this->db->sql_fetchrow($result))
 	{
 		$date_act = $row['date'];
 		$posts = $row['user_posts'];
@@ -292,7 +286,7 @@ else
 		$date_ab = $month_Array[$date_a];
 		$date_abc = $month_real_Array[$date_a];
 		$year = date("Y",strtotime($date_act));
-		$user_lastvisit = date("d.m.Y, H:i", $row['user_lastvisit']);  
+		$user_lastvisit = date("d.m.Y, H:i", $row['user_lastvisit']);
 		$user_avatar = $row['user_avatar'];
 		$user_avatar_type = $row['user_avatar_type'];
 		$user_regdate = date("d.m.Y", $row['user_regdate']);

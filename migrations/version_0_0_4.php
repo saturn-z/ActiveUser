@@ -24,13 +24,13 @@ class version_0_0_4 extends \phpbb\db\migration\migration
 	public function update_schema()
 	{
 		return array(
-         'add_columns'		=> array(
+		'add_columns'		=> array(
 				$this->table_prefix . 'active_user'	=> array(
-	               'position'			=> array('UINT:11', 1),
+					'position'			=> array('UINT:11', 1),
 				),
 			),
 		);
-   }
+	}
 
 	public function update_data()
 	{

@@ -41,7 +41,7 @@ class version_0_0_2 extends \phpbb\db\migration\migration
 				'module_basename'	=> '\saturnZ\activeuser\acp\activeuser_module',
 				'module_langname'	=> 'ACP_ACTIVE_USER_SETTINGS',
 				'module_mode'		=> 'active_user',
-				'module_auth'		=> 'ext_saturnZ/activeuser && acl_a_board', 
+				'module_auth'		=> 'ext_saturnZ/activeuser && acl_a_board',
 			))),
 		);
 	}

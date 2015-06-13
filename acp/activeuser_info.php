@@ -19,8 +19,8 @@ class activeuser_info
 			'version'	=> '0.0.4',
 			'modes'		=> array(
 				'settings'	=> array(
-					'title' => 'ACP_ACTIVE_USER_SETTINGS', 
-					'auth' => 'ext_saturnZ/activeuser && acl_a_board', 
+					'title' => 'ACP_ACTIVE_USER_SETTINGS',
+					'auth' => 'ext_saturnZ/activeuser && acl_a_board',
 					'cat' => array('ACP_ACTIVE_USER')),
 			),
 		);
