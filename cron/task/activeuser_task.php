@@ -14,13 +14,13 @@ protected $config;
 protected $config_text;
 protected $db;
 
-   /**
+	/**
 * Constructor.
-   *
+	*
 * @param \phpbb\config\config $config The config
-   */
+	*/
 public function __construct(\phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\db\driver\driver_interface $db, $table_prefix)
-   {
+	{
 		$this->config = $config;
 		$this->config_text = $config_text;
 		$this->db = $db;
@@ -28,15 +28,15 @@ public function __construct(\phpbb\config\config $config, \phpbb\config\db_text 
 		define(__NAMESPACE__ . '\ACTIVE_USER_TABLE', $this->table_prefix . 'active_user');
 		define(__NAMESPACE__ . '\USER_TABLE', $this->table_prefix . 'users');
 		define(__NAMESPACE__ . '\POSTS_TABLE', $this->table_prefix . 'posts');
-   }
+	}
 
-   /**
+	/**
 * Runs this cron task.
-   *
+	*
 * @return null
-   */
+	*/
 public function run()
-   {
+	{
 		date_default_timezone_set($this->config['board_timezone']);
 		$last_month = strtotime(date('d.m.Y', strtotime('first day of previous month')));
 		$current_month = strtotime(date('d.m.Y', strtotime('first day of this month')));
@@ -96,16 +96,16 @@ public function run()
 
 // Do not forget to update the configuration variable for last run time.
 $this->config->set('activeuser_task_last_gc', time());
-   }
+	}
 
-   /**
+	/**
 * Returns whether this cron task should run now, because enough time
 * has passed since it was last run.
-   *
+	*
 * @return bool
-   */
+	*/
 public function should_run()
-   {
+	{
 return $this->config['activeuser_task_last_gc'] < time() - $this->config['activeuser_task_gc'];
-   }
+	}
 }
