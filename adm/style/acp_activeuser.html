@@ -5,6 +5,20 @@
 	<fieldset>
 		<legend>{L_ACP_ACTIVE_USER_SETTINGS}</legend>
 		<dl>
+			<dt><label for="navbar_links">{L_ACP_ACTIVE_USER_NAVBAR_LINKS}{L_COLON}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="navbar_links" value="1"{% if NAVBAR_LINKS %} checked="checked"{% endif %} /> {L_YES}</label>
+				<label><input type="radio" class="radio" name="navbar_links" value="0"{% if not NAVBAR_LINKS %} checked="checked"{% endif %} /> {L_NO}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="navigation">{L_ACP_ACTIVE_USER_NAVIGATION}{L_COLON}</label></dt>
+			<dd>
+				<label><input type="radio" class="radio" name="navigation" value="1"{% if NAVIGATION %} checked="checked"{% endif %} /> {L_YES}</label>
+				<label><input type="radio" class="radio" name="navigation" value="0"{% if not NAVIGATION %} checked="checked"{% endif %} /> {L_NO}</label>
+			</dd>
+		</dl>
+		<dl>
 			<dt><label for="per_page">{L_ACP_ACTIVE_USER_PER_PAGE}{L_COLON}</label></dt>
 			<dd><input name="per_page" type="text" size="2" value="{PER_PAGE}"></dd>
 		</dl>

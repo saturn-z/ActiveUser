@@ -38,6 +38,8 @@ class activeuser_module
 			$config->set('activeuser_forecast_limit', $request->variable('forecast_limit', 3));
 			$config->set('activeuser_winner_limit', $request->variable('winner_limit', 1));
 			$config->set('activeuser_group', implode(',', $request->variable('activeuser_group', array(0))));
+			$config->set('activeuser_navbar_links', $request->variable('navbar_links', 1));
+			$config->set('activeuser_navigation', $request->variable('navigation', 1));
 			$this->config_text->set('activeuser_text_title', $request->variable('activeuser_text_title','',true));
 			$this->config_text->set('activeuser_text_winner', $request->variable('activeuser_text_winner','',true));
 			$this->config_text->set('activeuser_text_forecast', $request->variable('activeuser_text_forecast','',true));
@@ -71,6 +73,8 @@ class activeuser_module
 			'TEXT_WINNER'		=> $this->config_text->get('activeuser_text_winner'),
 			'TEXT_FORECAST'		=> $this->config_text->get('activeuser_text_forecast'),
 			'EXCLUDED_FORUMS'	=> make_forum_select(explode(',', $this->config_text->get('activeuser_excluded')), false, false, true),
+			'NAVBAR_LINKS'		=> (isset($this->config['activeuser_navbar_links'])) ? $this->config['activeuser_navbar_links'] : 1,
+			'NAVIGATION'		=> (isset($this->config['activeuser_navigation'])) ? $this->config['activeuser_navigation'] : 1,
 
 		));
 	}

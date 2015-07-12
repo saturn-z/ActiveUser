@@ -125,52 +125,7 @@ $winner_limit = $this->config['activeuser_winner_limit'];
 	'TEXT_TITLE'	=> $text_title,
 				));
 
-//Проверяем запись в БД, если нет добавляем
-
-if ($last_month >= $start_activeuser)
-{
-$arhive_date = date("d.m.Y", strtotime('first day of previous month'));
-$sql = "SELECT date 
-	FROM " . ACTIVE_USER_TABLE . " 
-	WHERE date 
-	LIKE '$arhive_date'";
-$res = $this->db->sql_query($sql);
-if ($this->db->sql_affectedrows($res) == 0)
-{
-
-$pos = "0";
-	$sql0 = "SELECT t.poster_id, t.forum_id, s.user_warnings, s.user_id, COUNT(poster_id) as cnt 
-			FROM " . POSTS_TABLE . " AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.poster_id) 
-			WHERE post_time >= {$last_month} 
-				AND post_time <= {$current_month} 
-					AND user_warnings <= {$warning}
-						AND group_id IN ($groups)
-							AND forum_id NOT IN ($excluded_forums)
-			GROUP BY poster_id 
-			ORDER BY cnt DESC, rand()";
-	$res0 = $this->db->sql_query_limit($sql0, $winner_limit);
-		if ($this->db->sql_affectedrows($res0) == 0)
-		{
-			$this->db->sql_query("INSERT INTO " . ACTIVE_USER_TABLE . " (user_id, date, user_posts, position) VALUES ('0', '$arhive_date', '0', '0')");
-		}
-		else
-		{
-			while($row0 = $this->db->sql_fetchrow($res0))
-			{
-$pos++;
-				$lider_id = $row0['poster_id'];
-				$lider_posts = $row0['cnt'];
-				$this->db->sql_query("INSERT INTO " . ACTIVE_USER_TABLE . " (user_id, date, user_posts, position) VALUES ('$lider_id', '$arhive_date', '$lider_posts', '$pos')");
-			}
-		}
-}
-}
-//Проверяем запись в БД, если нет добавляем
-
-//Прогноз победителей
-
 $i = "0";
-
 		$sql = "SELECT t.poster_id, t.forum_id, s.user_warnings, s.username, s.user_avatar_type, s.user_avatar, s.user_avatar_width, s.user_avatar_height, s.user_type, s.user_colour, s.user_lastvisit, s.user_regdate, s.user_id, COUNT(poster_id) as cnt
 			FROM " . POSTS_TABLE . " AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.poster_id)
 			WHERE post_time >= {$current_month}

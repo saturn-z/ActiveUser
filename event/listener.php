@@ -34,8 +34,9 @@ class listener implements EventSubscriberInterface
 	/**
 	* Constructor
 	*/
-	public function __construct(\phpbb\template\template $template, $phpbb_root_path)
+	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, $phpbb_root_path)
 	{
+		$this->config = $config;
 		$this->template = $template;
 		$this->phpbb_root_path = $phpbb_root_path;
 	}
@@ -44,7 +45,9 @@ class listener implements EventSubscriberInterface
 	public function add_page_header_link($event)
 	{
 		$this->template->assign_vars(array(
-			'U_MY_TEST' => append_sid("{$this->phpbb_root_path}activeuser"),
+			'U_MY_TEST'				=> append_sid("{$this->phpbb_root_path}activeuser"),
+			'NAVBAR_LINKS'			=> $this->config['activeuser_navbar_links'],
+			'NAVIGATION'			=> $this->config['activeuser_navigation'],
 		));
 	}
 
