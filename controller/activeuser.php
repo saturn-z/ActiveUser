@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - Active user
-* @copyright (c) 2013 phpBB Group
+* @copyright (c) 2015 saturn-z
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -125,6 +125,7 @@ $winner_limit = $this->config['activeuser_winner_limit'];
 	'TEXT_TITLE'	=> $text_title,
 				));
 
+//Прогноз победителей
 $i = "0";
 		$sql = "SELECT t.poster_id, t.forum_id, s.user_warnings, s.username, s.user_avatar_type, s.user_avatar, s.user_avatar_width, s.user_avatar_height, s.user_type, s.user_colour, s.user_lastvisit, s.user_regdate, s.user_id, COUNT(poster_id) as cnt
 			FROM " . POSTS_TABLE . " AS t LEFT JOIN " . USER_TABLE . " AS s ON (s.user_id = t.poster_id)
@@ -151,26 +152,39 @@ $i = "0";
 					}
 				$avatar = array('user_avatar' => $user_avatar,'user_avatar_type' => $user_avatar_type,'user_avatar_width' => '40','user_avatar_height' => '40');
 				$useravatar = phpbb_get_user_avatar($avatar);
+//////////////////////////////////////////////////////////////////////////////////////
+//СДЕЛАЮ В СЛЕДУЮЩЕЙ ВЕРСИИ
+/*
+					if ($user_posts >= "2")
+					{
 						$i++;
 						$this->template->assign_block_vars('forecast', array(
-			'NAME'			=> "$username",
-			'POSTS'			=> "$user_posts",
-			'DATE'			=> "$user_regdate",
-			'AVATAR'		=> "$useravatar",
-			'VISIT'			=> "$user_lastvisit",
-			'COMMENT'		=> "$text_forecast",
+	'CONTENT'		=> "<td class='activeuser'>$useravatar</td>
+						<td class='activeuser'>$username</td>
+						<td class='activeuser'>$user_posts</td>
+						<td class='activeuser'>$user_regdate</td>
+						<td class='activeuser'>$user_lastvisit</td>
+						<td class='activeuser'>$text_forecast</td>",
+						));
+					}
+*/
+//СДЕЛАЮ В СЛЕДУЮЩЕЙ ВЕРСИИ
+///////////////////////////////////////////////////////////////////////////////////////
+						$i++;
+						$this->template->assign_block_vars('forecast', array(
+	'CONTENT'		=> "<td class='activeuser'>$useravatar</td>
+						<td class='activeuser'>$username</td>
+						<td class='activeuser'>$user_posts</td>
+						<td class='activeuser'>$user_regdate</td>
+						<td class='activeuser'>$user_lastvisit</td>
+						<td class='activeuser'>$text_forecast</td>",
 						));
 			}
 
 if ($i < 1)
 {
 				$this->template->assign_block_vars('forecast', array(
-	'NAME'			=> "",
-	'POSTS'			=> "",
-	'DATE'			=> "",
-	'AVATAR'		=> "",
-	'VISIT'			=> "",
-	'COMMENT'		=> "".$this->user->lang['FORECAST_COMMENT_NO']." $month_real_Array[$pmonth_real].",
+	'CONTENT'		=> "<td class='activeuser' colspan='6'><center>".$this->user->lang['FORECAST_COMMENT_NO']." $month_real_Array[$pmonth_real].</center></td>",
 				));
 }
 //Прогноз победителей
@@ -256,12 +270,7 @@ else
 			if ($posts == "0")
 			{
 				$this->template->assign_block_vars('arhive', array(
-	'NAME'			=> "",
-	'POSTS'			=> "",
-	'DATE'			=> "",
-	'AVATAR'		=> "",
-	'VISIT'			=> "",
-	'COMMENT'		=> "".$this->user->lang['FORECAST_COMMENT_NO']." $date_abc.",
+	'CONTENT'		=> "<td class='activeuser' colspan='6'><center>".$this->user->lang['FORECAST_COMMENT_NO']." $date_abc.".$this->user->lang['MIN_POSTS']."</center></td>",
 				));
 			}
 			else
@@ -275,13 +284,12 @@ else
 		$position_text = '';
 	}
 				$this->template->assign_block_vars('arhive', array(
-	'NAME'			=> "$username",
-	'POSTS'			=> "$posts",
-	'DATE'			=> "$user_regdate",
-	'AVATAR'		=> "$useravatar",
-	'VISIT'			=> "$user_lastvisit",
-	'COMMENT'		=> "<font color=\"green\"><b>".$this->user->lang['WINNER']." $date_ab $year ".$this->user->lang['YEAR'].".</b></font>
-						$position_text<br>$text_winner",
+	'CONTENT'		=> "<td class='activeuser'>$useravatar</td>
+						<td class='activeuser'>$username</td>
+						<td class='activeuser'>$posts</td>
+						<td class='activeuser'>$user_regdate</td>
+						<td class='activeuser'>$user_lastvisit</td>
+						<td class='activeuser'><font color=\"green\"><b>".$this->user->lang['WINNER']." $date_ab $year ".$this->user->lang['YEAR'].".</b></font>$position_text<br>$text_winner</td>",
 			));
 			}
 	}

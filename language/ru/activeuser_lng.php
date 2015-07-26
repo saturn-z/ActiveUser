@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - Active user
-* @copyright (c) 2013 phpBB Group
+* @copyright (c) 2015 saturn-z
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -43,7 +43,7 @@ $lang = array_merge($lang, array(
 	'NOV2'					=> 'Ноябрь',
 	'DEC2'					=> 'Декабрь',
 	'YEAR'					=> 'года',
-	'FORECAST_COMMENT_NO'	=> 'Нет информации о победителях!<br>Пользователи не оставили ни одного сообщения на форуме за',
+	'FORECAST_COMMENT_NO'	=> 'Нет информации о победителях!<br />Пользователи не оставили ни одного сообщения на форуме за',
 	'FORECAST_WINNERS'		=> 'Прогноз победителей на',
 	'WINNERS'				=> 'Победители',
 	'WINNER'				=> 'Победитель',
@@ -56,6 +56,7 @@ $lang = array_merge($lang, array(
 	'POSTS'					=> 'Сообщений',
 	'POSITION'				=> 'место',
 	'WAR_POSTS'				=> 'Либо Вы исключены из конкурса.',
+	'MIN_POSTS'				=> '<br />Либо количество оставленных сообщений не соответствует условиям конкурса.',
 	'VISIT'					=> 'Последнее посещение',
 	'COMMENT'				=> 'Комментарий',
 	'TOTAL_ITEMS'			=> 'Всего: <strong>%d</strong>',

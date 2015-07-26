@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - Active user
-* @copyright (c) 2013 phpBB Group
+* @copyright (c) 2015 saturn-z
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -40,6 +40,7 @@ class activeuser_module
 			$config->set('activeuser_group', implode(',', $request->variable('activeuser_group', array(0))));
 			$config->set('activeuser_navbar_links', $request->variable('navbar_links', 1));
 			$config->set('activeuser_navigation', $request->variable('navigation', 1));
+			$config->set('activeuser_min_posts', $request->variable('min_posts', 10));
 			$this->config_text->set('activeuser_text_title', $request->variable('activeuser_text_title','',true));
 			$this->config_text->set('activeuser_text_winner', $request->variable('activeuser_text_winner','',true));
 			$this->config_text->set('activeuser_text_forecast', $request->variable('activeuser_text_forecast','',true));
@@ -75,6 +76,7 @@ class activeuser_module
 			'EXCLUDED_FORUMS'	=> make_forum_select(explode(',', $this->config_text->get('activeuser_excluded')), false, false, true),
 			'NAVBAR_LINKS'		=> (isset($this->config['activeuser_navbar_links'])) ? $this->config['activeuser_navbar_links'] : 1,
 			'NAVIGATION'		=> (isset($this->config['activeuser_navigation'])) ? $this->config['activeuser_navigation'] : 1,
+			'MIN_POSTS'			=> (isset($this->config['activeuser_min_posts'])) ? $this->config['activeuser_min_posts'] : 10,
 
 		));
 	}

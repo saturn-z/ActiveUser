@@ -1,7 +1,7 @@
 <?php
 /**
 *
-* @package phpBB Extension - myportal
+* @package phpBB Extension - Active user
 * @copyright (c) 2015 saturn-z
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *

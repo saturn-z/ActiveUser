@@ -1,10 +1,8 @@
 <?php
 /**
 *
-* activeuser [Russian]
-*
-* @package Active user
-* @copyright (c) 2013 phpBB Group
+* @package phpBB Extension - Active user
+* @copyright (c) 2015 saturn-z
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -26,6 +24,8 @@ $lang = array_merge($lang, array(
 	'ACP_ACTIVE_USER'						=> 'Конкурс на самого активного пользователя',
 	'ACP_ACTIVE_USER_EXPLAIN'				=> 'Здесь можно настроить параметры расширения',
 	'ACP_ACTIVE_USER_PER_PAGE'				=> 'Количество победителей на странице',
+	'ACP_ACTIVE_USER_MIN_POSTS'				=> 'Минимальное количество сообщений',
+	'ACP_ACTIVE_USER_MIN_POSTS_INFO'		=> 'Победитель не будет объявлен если кол-во его сообщений менее указанного.',
 	'ACP_ACTIVE_USER_WARNING'				=> 'Максимальное количество предупреждений',
 	'ACP_ACTIVE_USER_WARNING_INFO'			=> 'Пользователи с превышающим количеством предупреждений будут исключены из конкурса.',
 	'ACP_ACTIVE_USER_WINNER_LIMIT'			=> 'Количество призовых мест',

@@ -1,7 +1,7 @@
 <?php
 /**
 *
-* @package phpBB Extension - myportal
+* @package phpBB Extension - Active user
 * @copyright (c) 2015 saturn-z
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
@@ -14,13 +14,13 @@ protected $config;
 protected $config_text;
 protected $db;
 
-	/**
+   /**
 * Constructor.
-	*
+   *
 * @param \phpbb\config\config $config The config
-	*/
+   */
 public function __construct(\phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\db\driver\driver_interface $db, $table_prefix)
-{
+   {
 		$this->config = $config;
 		$this->config_text = $config_text;
 		$this->db = $db;
@@ -28,15 +28,15 @@ public function __construct(\phpbb\config\config $config, \phpbb\config\db_text 
 		define(__NAMESPACE__ . '\ACTIVE_USER_TABLE', $this->table_prefix . 'active_user');
 		define(__NAMESPACE__ . '\USER_TABLE', $this->table_prefix . 'users');
 		define(__NAMESPACE__ . '\POSTS_TABLE', $this->table_prefix . 'posts');
-}
+   }
 
-	/**
+   /**
 * Runs this cron task.
-	*
+   *
 * @return null
-	*/
+   */
 public function run()
-{
+   {
 		date_default_timezone_set($this->config['board_timezone']);
 		$last_month = strtotime(date('d.m.Y', strtotime('first day of previous month')));
 		$current_month = strtotime(date('d.m.Y', strtotime('first day of this month')));
@@ -45,6 +45,7 @@ public function run()
 		$start_activeuser = $this->config['activeuser_start'];
 		$excluded_forums = $this->config_text->get('activeuser_excluded');
 		$winner_limit = $this->config['activeuser_winner_limit'];
+		$min_posts = $this->config['activeuser_min_posts'];
 
 			if ($groups == '')
 			{
@@ -85,10 +86,24 @@ public function run()
 				{
 					while($row0 = $this->db->sql_fetchrow($res0))
 					{
+						$lider_posts = $row0['cnt'];
+
+					if ($lider_posts >= $min_posts)
+					{
 						$pos++;
 						$lider_id = $row0['poster_id'];
 						$lider_posts = $row0['cnt'];
 						$this->db->sql_query("INSERT INTO " . ACTIVE_USER_TABLE . " (user_id, date, user_posts, position) VALUES ('$lider_id', '$arhive_date', '$lider_posts', '$pos')");
+					}
+					else
+					{
+						$this->db->sql_query("INSERT INTO " . ACTIVE_USER_TABLE . " (user_id, date, user_posts, position) VALUES ('0', '$arhive_date', '0', '0')");
+					}
+
+//						$pos++;
+//						$lider_id = $row0['poster_id'];
+//						$lider_posts = $row0['cnt'];
+//						$this->db->sql_query("INSERT INTO " . ACTIVE_USER_TABLE . " (user_id, date, user_posts, position) VALUES ('$lider_id', '$arhive_date', '$lider_posts', '$pos')");
 					}
 				}
 		}
@@ -96,16 +111,16 @@ public function run()
 
 // Do not forget to update the configuration variable for last run time.
 $this->config->set('activeuser_task_last_gc', time());
-}
+   }
 
-	/**
+   /**
 * Returns whether this cron task should run now, because enough time
 * has passed since it was last run.
-	*
+   *
 * @return bool
-	*/
+   */
 public function should_run()
-{
+   {
 return $this->config['activeuser_task_last_gc'] < time() - $this->config['activeuser_task_gc'];
-}
+   }
 }
