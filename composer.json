@@ -25,8 +25,8 @@
             "phpbb/phpbb": "3.1.*@dev"
         },
         "version-check": {
-            "host": "github.com",
-            "directory": "/saturn-z/activeuser",
+            "host": "www.ribak72.ru",
+            "directory": "/community/phpbb_ext/activeuser",
             "filename": "version.json"
         }
     }
