@@ -26,7 +26,7 @@
         },
         "version-check": {
             "host": "www.ribak72.ru",
-            "directory": "/community/phpbb_ext/activeuser",
+            "directory": "/community/phpbb_ext/activeuser/",
             "filename": "version.json"
         }
     }
