@@ -23,6 +23,11 @@
         "display-name": "ActiveUser",
         "soft-require": {
             "phpbb/phpbb": "3.1.*@dev"
+        },
+        "version-check": {
+            "host": "github.com",
+            "directory": "/saturn-z/activeuser",
+            "filename": "version.json"
         }
     }
 }
