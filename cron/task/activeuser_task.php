@@ -99,11 +99,6 @@ public function run()
 					{
 						$this->db->sql_query("INSERT INTO " . ACTIVE_USER_TABLE . " (user_id, date, user_posts, position) VALUES ('0', '$arhive_date', '0', '0')");
 					}
-
-//						$pos++;
-//						$lider_id = $row0['poster_id'];
-//						$lider_posts = $row0['cnt'];
-//						$this->db->sql_query("INSERT INTO " . ACTIVE_USER_TABLE . " (user_id, date, user_posts, position) VALUES ('$lider_id', '$arhive_date', '$lider_posts', '$pos')");
 					}
 				}
 		}

@@ -3,7 +3,7 @@
     "type": "phpbb-extension",
     "description": "Конкурс на самого активного пользователя",
     "homepage": "http://phpbbguru.net",
-    "version": "0.0.6",
+    "version": "1.0.1",
     "time": "2015-07-27",
     "license": "GPL-2.0",
     "authors": [

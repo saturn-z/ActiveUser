@@ -104,6 +104,7 @@ $start_activeuser = $this->config['activeuser_start'];
 $excluded_forums = $this->config_text->get('activeuser_excluded');
 $forecast_limit = $this->config['activeuser_forecast_limit'];
 $winner_limit = $this->config['activeuser_winner_limit'];
+$min_posts = $this->config['activeuser_min_posts'];
 
 	if ($perpage == 0)
 	{
@@ -152,10 +153,7 @@ $i = "0";
 					}
 				$avatar = array('user_avatar' => $user_avatar,'user_avatar_type' => $user_avatar_type,'user_avatar_width' => '40','user_avatar_height' => '40');
 				$useravatar = phpbb_get_user_avatar($avatar);
-//////////////////////////////////////////////////////////////////////////////////////
-//СДЕЛАЮ В СЛЕДУЮЩЕЙ ВЕРСИИ
-/*
-					if ($user_posts >= "2")
+					if ($user_posts >= $min_posts)
 					{
 						$i++;
 						$this->template->assign_block_vars('forecast', array(
@@ -167,9 +165,8 @@ $i = "0";
 						<td class='activeuser'>$text_forecast</td>",
 						));
 					}
-*/
-//СДЕЛАЮ В СЛЕДУЮЩЕЙ ВЕРСИИ
-///////////////////////////////////////////////////////////////////////////////////////
+					else
+					{
 						$i++;
 						$this->template->assign_block_vars('forecast', array(
 	'CONTENT'		=> "<td class='activeuser'>$useravatar</td>
@@ -177,8 +174,9 @@ $i = "0";
 						<td class='activeuser'>$user_posts</td>
 						<td class='activeuser'>$user_regdate</td>
 						<td class='activeuser'>$user_lastvisit</td>
-						<td class='activeuser'>$text_forecast</td>",
+						<td class='activeuser'><font color=\"red\">".$this->user->lang['TEXT_MIN_POSTS']." <b>$min_posts</b></font></td>",
 						));
+					}
 			}
 
 if ($i < 1)
