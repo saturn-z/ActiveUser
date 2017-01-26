@@ -2,33 +2,33 @@ services:
     saturnZ.activeuser.controller:
         class: saturnZ\activeuser\controller\activeuser
         arguments:
-            - @config
-            - @config_text
-            - @request
-            - @pagination
-            - @dbal.conn
-            - @auth
-            - @template
-            - @user
-            - @controller.helper
-            - %core.root_path%
-            - %core.php_ext%
-            - %core.table_prefix%
+            - '@config'
+            - '@config_text'
+            - '@request'
+            - '@pagination'
+            - '@dbal.conn'
+            - '@auth'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+            - '%core.table_prefix%'
     saturnZ.activeuser.listener:
         class: saturnZ\activeuser\event\listener
         arguments:
-            - @config
-            - @template
-            - %core.root_path%
+            - '@config'
+            - '@template'
+            - '%core.root_path%'
         tags:
             - { name: event.listener }
     saturnZ.activeuser.cron.task.activeuser_task:
         class: saturnZ\activeuser\cron\task\activeuser_task
         arguments:
-            - @config
-            - @config_text
-            - @dbal.conn
-            - %core.table_prefix%
+            - '@config'
+            - '@config_text'
+            - '@dbal.conn'
+            - '%core.table_prefix%'
         calls:
             - [set_name, [cron.task.core.activeuser_task]]
         tags:
