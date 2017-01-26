@@ -1,3 +1,0 @@
-saturnZ_activeuser_controller:
-    pattern: /activeuser
-    defaults: { _controller: saturnZ.activeuser.controller:main }
